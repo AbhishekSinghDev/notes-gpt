@@ -5,6 +5,8 @@ export interface NoteSchemaInterface extends Document {
   title: string;
   content?: string;
   userId: string;
+  updatedAt: Date;
+  createdAt: Date;
 }
 
 const NoteSchema = new mongoose.Schema(

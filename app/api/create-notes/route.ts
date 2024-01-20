@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     const parseResult = createNoteSchema.safeParse(body);
     if (!parseResult.success) {
-      console.log("while creating note validatio failed");
+      console.log("while creating note validation failed");
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 

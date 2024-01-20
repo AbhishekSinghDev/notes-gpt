@@ -1,18 +1,28 @@
 import React from "react";
 import { auth } from "@clerk/nextjs";
 import Note from "@/lib/database/models/note.model";
-import connectToDatabase from "@/lib/database";
+import NoteCard from "@/components/shared/NoteCard";
 
 const NotesPage = async () => {
   const { userId } = auth();
+
   if (!userId) throw new Error("userId is undefined");
 
-  await connectToDatabase();
-  const allNotes = await Note.find({ clerkId: userId });
+  const data = await Note.find({ userId: userId });
 
-  if (!userId) throw new Error("Userid is undefined");
+  return (
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {data.map((note) => (
+        <NoteCard note={note} key={note._id} />
+      ))}
 
-  return <div>{JSON.stringify(allNotes)}</div>;
+      {data.length === 0 && (
+        <p className="col-span-full text-center text-xl">
+          You don&apos;t have any notes yet. Why don&apos;t create one ?
+        </p>
+      )}
+    </div>
+  );
 };
 
 export default NotesPage;
