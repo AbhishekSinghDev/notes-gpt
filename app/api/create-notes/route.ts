@@ -1,9 +1,12 @@
+import connectToDatabase from "@/lib/database";
 import Note, { NoteSchemaInterface } from "@/lib/database/models/note.model";
 import { createNoteSchema } from "@/lib/database/validation/note.validation";
 import { auth } from "@clerk/nextjs";
 
 export async function POST(req: Request) {
   try {
+    await connectToDatabase();
+
     const body = await req.json();
 
     const parseResult = createNoteSchema.safeParse(body);
